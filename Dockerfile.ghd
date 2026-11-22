@@ -6,7 +6,7 @@
 #   ./scripts/build-ghd.sh
 #   docker compose -f deploy/docker-compose.yml up -d --build
 #
-FROM alpine:3.19 AS pb-downloader
+FROM alpine:3.24 AS pb-downloader
 
 ARG PB_VERSION=0.36.8
 RUN apk add --no-cache curl unzip \
@@ -16,7 +16,7 @@ RUN apk add --no-cache curl unzip \
     && unzip /tmp/pocketbase.zip -d /tmp/pb \
     && chmod +x /tmp/pb/pocketbase
 
-FROM alpine:3.19
+FROM alpine:3.24
 
 RUN apk add --no-cache ca-certificates wget \
     && adduser -D -u 1001 pbuser
