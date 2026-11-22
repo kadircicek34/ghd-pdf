@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Üyelik Yönetimi | GH PDF</title>
+    <meta
+      name="description"
+      content="GH PDF üyelik başvuruları yönetim ekranı."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0f1e3d" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="/assets/ghd.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/" aria-label="GH PDF ana sayfa">
+          <img
+            class="brand__mark"
+            src="/assets/logo.png"
+            alt="Global Hukukçular Derneği amblemi"
+            width="48"
+            height="48"
+          />
+          <span class="brand__text">
+            <span class="brand__name">GH PDF</span>
+            <span class="brand__sub">Yönetim Paneli</span>
+          </span>
+        </a>
+        <div class="nav" style="display: flex">
+          <a href="/">Portal</a>
+          <a href="/durum">Durumum</a>
+          <a class="nav__cta" href="/cikis">Çıkış</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container admin-page">
+      <div id="admin-alert" class="alert" role="alert"></div>
+
+      <section id="admin-login" class="auth-shell" style="display: none">
+        <div class="auth-aside">
+          <span class="eyebrow" style="color: var(--gold-3)"
+            >Yetkili erişimi</span
+          >
+          <h1>Üyelik yönetimi</h1>
+          <p>
+            Başvuruları incelemek, e-Devlet belgelerini görüntülemek ve üyelik
+            kararlarını vermek için dernek yöneticisi hesabıyla giriş yapın.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card__head">
+            <h2>Yönetici girişi</h2>
+            <p>Bu alan yalnızca yetkili dernek yöneticileri içindir.</p>
+          </div>
+          <form id="admin-login-form">
+            <div class="form-grid">
+              <div class="field field--full">
+                <label for="admin-email"
+                  >E-posta <span class="req">*</span></label
+                >
+                <input
+                  class="input"
+                  id="admin-email"
+                  type="email"
+                  autocomplete="username"
+                  required
+                />
+              </div>
+              <div class="field field--full">
+                <label for="admin-password"
+                  >Şifre <span class="req">*</span></label
+                >
+                <input
+                  class="input"
+                  id="admin-password"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                  minlength="8"
+                />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button
+                class="btn btn--navy btn--block"
+                type="submit"
+                id="admin-login-submit"
+              >
+                Giriş yap
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section id="admin-dashboard" style="display: none">
+        <div class="admin-head">
+          <div>
+            <h1>Üyelik başvuruları</h1>
+            <p>Başvuruları inceleyin, belgeleri görüntüleyin ve karar verin.</p>
+          </div>
+          <button
+            class="btn btn--outline btn--sm"
+            type="button"
+            id="admin-refresh"
+          >
+            Yenile
+          </button>
+        </div>
+
+        <div class="stat-grid" id="admin-stats">
+          <div class="stat">
+            <span>Bekleyen</span><strong id="stat-pending">—</strong>
+          </div>
+          <div class="stat">
+            <span>Onaylı</span><strong id="stat-approved">—</strong>
+          </div>
+          <div class="stat">
+            <span>Reddedilen</span><strong id="stat-rejected">—</strong>
+          </div>
+          <div class="stat">
+            <span>Toplam başvuru</span><strong id="stat-total">—</strong>
+          </div>
+        </div>
+
+        <div class="admin-toolbar" role="tablist" aria-label="Başvuru filtresi">
+          <button class="tab is-active" data-filter="pending" type="button">
+            Bekleyen
+          </button>
+          <button class="tab" data-filter="approved" type="button">
+            Onaylı
+          </button>
+          <button class="tab" data-filter="rejected" type="button">
+            Reddedilen
+          </button>
+          <button class="tab" data-filter="all" type="button">Tümü</button>
+        </div>
+
+        <div class="admin-list" id="admin-list">
+          <div class="empty-state">Yükleniyor…</div>
+        </div>
+      </section>
+    </main>
+
+    <div
+      class="modal"
+      id="decision-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="decision-title"
+    >
+      <div class="modal__panel">
+        <div class="modal__head">
+          <div>
+            <h2 id="decision-title">Başvuru değerlendirmesi</h2>
+            <p
+              id="decision-sub"
+              style="
+                margin: 0.2rem 0 0;
+                font-size: 0.84rem;
+                color: var(--muted);
+              "
+            ></p>
+          </div>
+          <button
+            class="modal__close"
+            type="button"
+            data-modal-close
+            aria-label="Kapat"
+          >
+            ×
+          </button>
+        </div>
+        <dl class="detail-list" id="decision-details"></dl>
+        <div class="field" style="margin-bottom: 1rem">
+          <label for="decision-note">Yönetici notu / ret gerekçesi</label>
+          <textarea
+            class="textarea"
+            id="decision-note"
+            maxlength="1000"
+            placeholder="Onay veya ret kararına ilişkin not (ret için önerilir)."
+          ></textarea>
+          <span class="hint">Ret durumunda bu not üyeye gösterilir.</span>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn--success" type="button" id="decision-approve">
+            Onayla
+          </button>
+          <button class="btn btn--danger" type="button" id="decision-reject">
+            Reddet
+          </button>
+          <button class="btn btn--outline" type="button" data-modal-close>
+            Vazgeç
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="container site-footer__bottom" style="border-top: 0">
+        <span>© 2026 Global Hukukçular Derneği · Yönetim paneli</span>
+        <span><a href="/gizlilik">Gizlilik ve KVKK</a></span>
+      </div>
+    </footer>
+
+    <script src="/assets/ghd.js"></script>
+    <script>
+      (function () {
+        var loginSection = document.getElementById('admin-login');
+        var dashboard = document.getElementById('admin-dashboard');
+        var alertBox = document.getElementById('admin-alert');
+        var list = document.getElementById('admin-list');
+        var modal = document.getElementById('decision-modal');
+        var details = document.getElementById('decision-details');
+        var decisionSub = document.getElementById('decision-sub');
+        var note = document.getElementById('decision-note');
+        var approveBtn = document.getElementById('decision-approve');
+        var rejectBtn = document.getElementById('decision-reject');
+        var currentFilter = 'pending';
+        var currentUser = null;
+        var applications = [];
+
+        function openModal() {
+          modal.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+          modal.classList.remove('is-open');
+          document.body.style.overflow = '';
+          currentUser = null;
+        }
+        document
+          .querySelectorAll('[data-modal-close]')
+          .forEach(function (button) {
+            button.addEventListener('click', closeModal);
+          });
+        modal.addEventListener('click', function (event) {
+          if (event.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') closeModal();
+        });
+
+        async function checkSession() {
+          try {
+            var data = await ghdApi('/api/ghdpdf/me');
+            if (data.user && data.user.role === 'admin') {
+              loginSection.style.display = 'none';
+              dashboard.style.display = 'block';
+              await loadStats();
+              await loadApplications();
+            } else {
+              loginSection.style.display = 'grid';
+              dashboard.style.display = 'none';
+            }
+          } catch (error) {
+            loginSection.style.display = 'grid';
+            dashboard.style.display = 'none';
+          }
+        }
+
+        document
+          .getElementById('admin-login-form')
+          .addEventListener('submit', async function (event) {
+            event.preventDefault();
+            var button = document.getElementById('admin-login-submit');
+            ghdHideAlert(alertBox);
+            ghdSetBusy(button, true, 'Giriş yapılıyor…');
+            try {
+              await ghdApi('/api/ghdpdf/login', {
+                method: 'POST',
+                body: {
+                  email: document.getElementById('admin-email').value.trim(),
+                  password: document.getElementById('admin-password').value,
+                },
+              });
+              var me = await ghdApi('/api/ghdpdf/me');
+              if (!me.user || me.user.role !== 'admin') {
+                await ghdApi('/api/ghdpdf/logout', { method: 'POST' }).catch(
+                  function () {}
+                );
+                throw new Error('Bu hesabın yönetim yetkisi yok.');
+              }
+              await checkSession();
+            } catch (error) {
+              ghdShowAlert(alertBox, error.message, 'error');
+            } finally {
+              ghdSetBusy(button, false);
+            }
+          });
+
+        async function loadStats() {
+          try {
+            var stats = await ghdApi('/api/ghdpdf/admin/stats');
+            document.getElementById('stat-pending').textContent = stats.pending;
+            document.getElementById('stat-approved').textContent =
+              stats.approved;
+            document.getElementById('stat-rejected').textContent =
+              stats.rejected;
+            document.getElementById('stat-total').textContent = stats.total;
+          } catch (error) {
+            ghdShowAlert(alertBox, error.message, 'error');
+          }
+        }
+
+        async function loadApplications() {
+          list.innerHTML = '<div class="empty-state">Yükleniyor…</div>';
+          try {
+            var data = await ghdApi(
+              '/api/ghdpdf/admin/applications?status=' +
+                encodeURIComponent(currentFilter)
+            );
+            applications = data.applications || [];
+            renderList();
+          } catch (error) {
+            list.innerHTML =
+              '<div class="empty-state">Başvurular yüklenemedi.</div>';
+            ghdShowAlert(alertBox, error.message, 'error');
+          }
+        }
+
+        function statusBadge(status) {
+          return (
+            '<span class="badge badge--' +
+            status +
+            '">' +
+            ghdEscape(GHD_STATUS_LABELS[status] || status) +
+            '</span>'
+          );
+        }
+
+        function renderList() {
+          if (!applications.length) {
+            list.innerHTML =
+              '<div class="empty-state">Bu filtrede başvuru bulunmuyor.</div>';
+            return;
+          }
+          list.innerHTML = applications
+            .map(function (app) {
+              var docs = app.documents || [];
+              return (
+                '<article class="applicant">' +
+                '<div>' +
+                '<h3>' +
+                ghdEscape(app.name || 'İsimsiz başvuru') +
+                ' ' +
+                statusBadge(app.membership_status) +
+                '</h3>' +
+                '<p>' +
+                ghdEscape(app.email || '—') +
+                '</p>' +
+                '</div>' +
+                '<div class="applicant__meta">' +
+                '<span><strong>Hukuk durumu:</strong> ' +
+                ghdEscape(GHD_LEGAL_LABELS[app.legal_status] || '—') +
+                '</span>' +
+                '<span><strong>Doğum tarihi:</strong> ' +
+                ghdEscape(ghdFormatDate(app.birth_date)) +
+                '</span>' +
+                '<span><strong>Başvuru:</strong> ' +
+                ghdEscape(ghdFormatDate(app.created)) +
+                '</span>' +
+                '<span><strong>Belge:</strong> ' +
+                (docs.length ? docs.length + ' dosya' : 'Yok') +
+                '</span>' +
+                '</div>' +
+                '<div class="applicant__actions">' +
+                (docs.length
+                  ? '<button class="btn btn--outline btn--sm" type="button" data-doc="' +
+                    ghdEscape(docs[0].id) +
+                    '">Belgeyi aç</button>'
+                  : '') +
+                '<button class="btn btn--navy btn--sm" type="button" data-review="' +
+                ghdEscape(app.id) +
+                '">İncele</button>' +
+                '</div>' +
+                '</article>'
+              );
+            })
+            .join('');
+
+          list.querySelectorAll('[data-review]').forEach(function (button) {
+            button.addEventListener('click', function () {
+              openReview(button.getAttribute('data-review'));
+            });
+          });
+          list.querySelectorAll('[data-doc]').forEach(function (button) {
+            button.addEventListener('click', function () {
+              openDocument(button.getAttribute('data-doc'));
+            });
+          });
+        }
+
+        function openReview(id) {
+          currentUser = applications.find(function (app) {
+            return app.id === id;
+          });
+          if (!currentUser) return;
+          var docs = currentUser.documents || [];
+          details.innerHTML =
+            '<div><dt>Ad soyad</dt><dd>' +
+            ghdEscape(currentUser.name || '—') +
+            '</dd></div>' +
+            '<div><dt>E-posta</dt><dd>' +
+            ghdEscape(currentUser.email || '—') +
+            '</dd></div>' +
+            '<div><dt>Telefon</dt><dd>' +
+            ghdEscape(currentUser.phone || '—') +
+            '</dd></div>' +
+            '<div><dt>Doğum tarihi</dt><dd>' +
+            ghdEscape(ghdFormatDate(currentUser.birth_date)) +
+            '</dd></div>' +
+            '<div><dt>Hukuk durumu</dt><dd>' +
+            ghdEscape(GHD_LEGAL_LABELS[currentUser.legal_status] || '—') +
+            '</dd></div>' +
+            '<div><dt>Üniversite</dt><dd>' +
+            ghdEscape(currentUser.school || '—') +
+            '</dd></div>' +
+            '<div><dt>Mezuniyet yılı</dt><dd>' +
+            ghdEscape(currentUser.graduation_year || '—') +
+            '</dd></div>' +
+            '<div><dt>Belge</dt><dd>' +
+            (docs.length
+              ? '<button class="btn btn--outline btn--sm" type="button" id="modal-doc">Görüntüle</button>'
+              : 'Yüklenmemiş') +
+            '</dd></div>' +
+            '<div><dt>Mevcut durum</dt><dd>' +
+            statusBadge(currentUser.membership_status) +
+            '</dd></div>';
+          decisionSub.textContent = currentUser.name || '';
+          note.value = currentUser.membership_note || '';
+          approveBtn.disabled = docs.length === 0;
+          approveBtn.title = docs.length ? '' : 'Belge olmadan onay verilemez';
+          var modalDoc = document.getElementById('modal-doc');
+          if (modalDoc) {
+            modalDoc.addEventListener('click', function () {
+              openDocument(docs[0].id);
+            });
+          }
+          openModal();
+        }
+
+        function openDocument(docId) {
+          window.open(
+            '/api/ghdpdf/admin/document?id=' + encodeURIComponent(docId),
+            '_blank',
+            'noopener'
+          );
+        }
+
+        async function decide(status) {
+          if (!currentUser) return;
+          var button = status === 'approved' ? approveBtn : rejectBtn;
+          ghdSetBusy(
+            button,
+            true,
+            status === 'approved' ? 'Onaylanıyor…' : 'Reddediliyor…'
+          );
+          try {
+            await ghdApi('/api/ghdpdf/admin/decision', {
+              method: 'POST',
+              body: {
+                user_id: currentUser.id,
+                status: status,
+                note: note.value.trim(),
+              },
+            });
+            closeModal();
+            ghdShowAlert(
+              alertBox,
+              status === 'approved'
+                ? 'Başvuru onaylandı.'
+                : 'Başvuru reddedildi.',
+              'success'
+            );
+            await loadStats();
+            await loadApplications();
+          } catch (error) {
+            ghdShowAlert(alertBox, error.message, 'error');
+          } finally {
+            ghdSetBusy(button, false);
+          }
+        }
+
+        approveBtn.addEventListener('click', function () {
+          decide('approved');
+        });
+        rejectBtn.addEventListener('click', function () {
+          decide('rejected');
+        });
+
+        document.querySelectorAll('[data-filter]').forEach(function (tab) {
+          tab.addEventListener('click', function () {
+            document
+              .querySelectorAll('[data-filter]')
+              .forEach(function (other) {
+                other.classList.remove('is-active');
+              });
+            tab.classList.add('is-active');
+            currentFilter = tab.getAttribute('data-filter');
+            loadApplications();
+          });
+        });
+        document
+          .getElementById('admin-refresh')
+          .addEventListener('click', function () {
+            loadStats();
+            loadApplications();
+          });
+
+        checkSession();
+      })();
+    </script>
+  </body>
+</html>

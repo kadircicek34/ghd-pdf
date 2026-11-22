@@ -1,0 +1,17 @@
+GH PDF — Global Hukukçular Derneği PDF Platformu
+Copyright (C) 2026 Global Hukukçular Derneği
+
+Bu yazılım, BentoPDF projesinin (https://github.com/alam00000/bentopdf)
+AGPL-3.0 lisansı altında yayımlanmış kaynak kodundan uyarlanmıştır.
+Özgün BentoPDF kodu ve bileşenleri ilgili yazarlara aittir.
+
+Değişiklikler:
+- Global Hukukçular Derneği kurumsal kimliği (marka, logo, favicon, metadata)
+- Türkçe varsayılan arayüz ve Türkçe üye portalı
+- PocketBase tabanlı üyelik, e-Devlet belgesi doğrulaması ve yönetim onayı
+- Onaylı üyeye özel /uygulama/ erişim kapısı
+- Docker/Caddy üretim yapılandırması
+
+Bu yazılım AGPL-3.0 koşulları altında dağıtılır. Kaynak kodun tamamı
+https://github.com/kadircicek34/ghd-pdf adresinde yayımlanır. Lisans metni
+LICENSE dosyasındadır.

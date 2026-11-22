@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Üyelik Başvurusu | GH PDF</title>
+    <meta
+      name="description"
+      content="GH PDF üyelik başvurusu. Doğum tarihi, hukuk öğrencisi/mezunu bilgisi ve e-Devlet belgesiyle Global Hukukçular Derneği üyeliğine başvurun."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0f1e3d" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="/assets/ghd.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/" aria-label="GH PDF ana sayfa">
+          <img
+            class="brand__mark"
+            src="/assets/logo.png"
+            alt="Global Hukukçular Derneği amblemi"
+            width="48"
+            height="48"
+          />
+          <span class="brand__text">
+            <span class="brand__name">GH PDF</span>
+            <span class="brand__sub">Global Hukukçular Derneği</span>
+          </span>
+        </a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-menu-toggle
+          aria-label="Menüyü aç"
+          aria-expanded="false"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+          </svg>
+        </button>
+        <nav class="nav" data-nav aria-label="Ana menü">
+          <a href="/">Ana sayfa</a>
+          <a href="/giris">Üye girişi</a>
+          <a href="/durum">Başvuru durumu</a>
+          <a class="nav__cta" href="/basvuru">Başvuru yap</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container apply-layout">
+      <aside class="apply-aside">
+        <span class="eyebrow" style="color: var(--gold-3)"
+          >Üyelik başvurusu</span
+        >
+        <h1>GH PDF'e erişim için başvurun</h1>
+        <p>
+          Platform yalnızca Global Hukukçular Derneği üyelerine açıktır.
+          Başvurunuz, belgenizle birlikte dernek yönetimi tarafından incelenir.
+        </p>
+        <ul class="requirement-list">
+          <li>
+            <span class="num">1</span>
+            <div>
+              <strong>Doğum tarihi</strong>
+              <span>Başvuru formunda zorunludur.</span>
+            </div>
+          </li>
+          <li>
+            <span class="num">2</span>
+            <div>
+              <strong>Hukuk öğrencisi / mezunu</strong>
+              <span
+                >Hukuk fakültesi öğrencisi veya mezunu olduğunuzu
+                belirtin.</span
+              >
+            </div>
+          </li>
+          <li>
+            <span class="num">3</span>
+            <div>
+              <strong>e-Devlet belgesi</strong>
+              <span
+                >Öğrenci belgesi veya hukuk fakültesi diploması (PDF/JPG/PNG, en
+                fazla 10 MB).</span
+              >
+            </div>
+          </li>
+          <li>
+            <span class="num">4</span>
+            <div>
+              <strong>KVKK onayı</strong>
+              <span>Aydınlatma metnini okuyup açık rıza vermeniz gerekir.</span>
+            </div>
+          </li>
+        </ul>
+        <div class="alert alert--info is-visible" style="margin-top: 1.2rem">
+          Belgeniz herkese açık değildir; yalnızca yetkili dernek yöneticisi
+          görüntüleyebilir.
+        </div>
+      </aside>
+
+      <section class="card" aria-labelledby="apply-title">
+        <div class="card__head">
+          <h2 id="apply-title">Başvuru formu</h2>
+          <p><span class="req">*</span> işaretli alanlar zorunludur.</p>
+        </div>
+        <div id="apply-alert" class="alert" role="alert"></div>
+        <form id="apply-form" novalidate>
+          <fieldset class="form-section">
+            <legend class="form-section__title">
+              <span>01</span> Kişisel bilgiler
+            </legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="full_name"
+                  >Ad soyad <span class="req">*</span></label
+                >
+                <input
+                  class="input"
+                  id="full_name"
+                  name="full_name"
+                  type="text"
+                  autocomplete="name"
+                  required
+                  maxlength="120"
+                  placeholder="Adınız ve soyadınız"
+                />
+              </div>
+              <div class="field">
+                <label for="email"
+                  >E-posta adresi <span class="req">*</span></label
+                >
+                <input
+                  class="input"
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  maxlength="254"
+                  placeholder="ornek@eposta.com"
+                />
+              </div>
+              <div class="field">
+                <label for="phone">Telefon <span class="req">*</span></label>
+                <input
+                  class="input"
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  required
+                  maxlength="20"
+                  placeholder="05xx xxx xx xx"
+                />
+              </div>
+              <div class="field">
+                <label for="birth_date"
+                  >Doğum tarihi <span class="req">*</span></label
+                >
+                <input
+                  class="input"
+                  id="birth_date"
+                  name="birth_date"
+                  type="date"
+                  required
+                />
+              </div>
+              <div class="field">
+                <label for="city">Şehir</label>
+                <input
+                  class="input"
+                  id="city"
+                  name="city"
+                  type="text"
+                  autocomplete="address-level2"
+                  maxlength="80"
+                  placeholder="Örn. İstanbul"
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend class="form-section__title">
+              <span>02</span> Hukuk durumu
+            </legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="legal_status"
+                  >Durumunuz <span class="req">*</span></label
+                >
+                <select
+                  class="select"
+                  id="legal_status"
+                  name="legal_status"
+                  required
+                >
+                  <option value="">Seçiniz</option>
+                  <option value="student">Hukuk fakültesi öğrencisiyim</option>
+                  <option value="graduate">Hukuk fakültesi mezunuyum</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="school"
+                  >Üniversite / fakülte <span class="req">*</span></label
+                >
+                <input
+                  class="input"
+                  id="school"
+                  name="school"
+                  type="text"
+                  required
+                  maxlength="160"
+                  placeholder="Örn. İstanbul Üniversitesi Hukuk Fakültesi"
+                />
+              </div>
+              <div class="field">
+                <label for="graduation_year">Mezuniyet yılı</label>
+                <input
+                  class="input"
+                  id="graduation_year"
+                  name="graduation_year"
+                  type="number"
+                  min="1950"
+                  max="2100"
+                  placeholder="Mezunsanız doldurun"
+                />
+              </div>
+              <div class="field">
+                <label
+                  class="checkbox"
+                  for="kvkk_consent"
+                  style="margin-top: 1.55rem"
+                >
+                  <input
+                    id="kvkk_consent"
+                    name="kvkk_consent"
+                    type="checkbox"
+                    required
+                  />
+                  <span>
+                    <a
+                      href="/gizlilik"
+                      target="_blank"
+                      rel="noopener"
+                      style="font-weight: 600; color: var(--gold-3)"
+                      >KVKK aydınlatma metnini</a
+                    >
+                    okudum; kişisel verilerimin üyelik başvurusu ve doğrulama
+                    amacıyla işlenmesine açık rıza veriyorum.
+                    <span class="req">*</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend class="form-section__title">
+              <span>03</span> e-Devlet belgesi
+            </legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="doc_type"
+                  >Belge türü <span class="req">*</span></label
+                >
+                <select class="select" id="doc_type" name="doc_type" required>
+                  <option value="">Seçiniz</option>
+                  <option value="student_certificate">Öğrenci belgesi</option>
+                  <option value="diploma">Diploma</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Belge dosyası <span class="req">*</span></label>
+                <div class="file-drop" id="file-drop">
+                  <input
+                    id="document"
+                    name="document"
+                    type="file"
+                    accept="application/pdf,image/jpeg,image/png,.pdf,.jpg,.jpeg,.png"
+                    required
+                  />
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M5 15v3.5A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V15"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                  <strong>Belgeyi seçin veya sürükleyin</strong>
+                  <span>PDF, JPG veya PNG · en fazla 10 MB</span>
+                  <div class="file-drop__name" id="file-name"></div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend class="form-section__title">
+              <span>04</span> Hesap bilgileri
+            </legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="password">Şifre <span class="req">*</span></label>
+                <input
+                  class="input"
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="new-password"
+                  required
+                  minlength="8"
+                  placeholder="En az 8 karakter"
+                />
+                <span class="hint"
+                  >Büyük/küçük harf ve rakam kullanmanız önerilir.</span
+                >
+              </div>
+              <div class="field">
+                <label for="password_confirm"
+                  >Şifre tekrar <span class="req">*</span></label
+                >
+                <input
+                  class="input"
+                  id="password_confirm"
+                  name="password_confirm"
+                  type="password"
+                  autocomplete="new-password"
+                  required
+                  minlength="8"
+                  placeholder="Şifrenizi tekrar girin"
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button class="btn btn--navy" type="submit" id="apply-submit">
+              Başvuruyu gönder
+            </button>
+            <a class="btn btn--outline" href="/giris">Zaten üyeyim</a>
+          </div>
+          <p class="form-note">
+            Başvurunuz <strong>onay bekliyor</strong> durumunda oluşturulur.
+            Yönetim onayından sonra GH PDF araçlarına erişebilirsiniz.
+          </p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__bottom" style="border-top: 0">
+        <span>© 2026 Global Hukukçular Derneği</span>
+        <span
+          ><a href="/gizlilik">Gizlilik ve KVKK</a> ·
+          <a href="/kosullar">Kullanım koşulları</a></span
+        >
+      </div>
+    </footer>
+
+    <script src="/assets/ghd.js"></script>
+    <script>
+      (function () {
+        var form = document.getElementById('apply-form');
+        var alertBox = document.getElementById('apply-alert');
+        var submit = document.getElementById('apply-submit');
+        var fileInput = document.getElementById('document');
+        var fileName = document.getElementById('file-name');
+        var drop = document.getElementById('file-drop');
+
+        function updateFileLabel() {
+          var file = fileInput.files && fileInput.files[0];
+          fileName.textContent = file
+            ? file.name + ' · ' + (file.size / 1024 / 1024).toFixed(2) + ' MB'
+            : '';
+        }
+        fileInput.addEventListener('change', updateFileLabel);
+        ['dragenter', 'dragover'].forEach(function (name) {
+          drop.addEventListener(name, function (e) {
+            e.preventDefault();
+            drop.classList.add('is-dragover');
+          });
+        });
+        ['dragleave', 'drop'].forEach(function (name) {
+          drop.addEventListener(name, function (e) {
+            e.preventDefault();
+            drop.classList.remove('is-dragover');
+          });
+        });
+        drop.addEventListener('drop', function (e) {
+          if (e.dataTransfer && e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            updateFileLabel();
+          }
+        });
+
+        function validationError(message) {
+          ghdShowAlert(alertBox, message, 'error');
+          return false;
+        }
+
+        form.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          ghdHideAlert(alertBox);
+          var fullName = form.full_name.value.trim();
+          var email = form.email.value.trim();
+          var phone = form.phone.value.trim();
+          var birth = form.birth_date.value;
+          var legal = form.legal_status.value;
+          var school = form.school.value.trim();
+          var password = form.password.value;
+          var confirm = form.password_confirm.value;
+          var docType = form.doc_type.value;
+          var file = fileInput.files && fileInput.files[0];
+
+          if (!fullName || !email || !phone || !birth || !legal || !school) {
+            return validationError(
+              'Lütfen zorunlu alanların tamamını doldurun.'
+            );
+          }
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return validationError('Geçerli bir e-posta adresi girin.');
+          }
+          var birthDate = new Date(birth + 'T00:00:00');
+          if (isNaN(birthDate.getTime()) || birthDate.getTime() > Date.now()) {
+            return validationError(
+              'Geçerli bir doğum tarihi girin; tarih gelecekte olamaz.'
+            );
+          }
+          if (legal === 'graduate' && !form.graduation_year.value.trim()) {
+            return validationError('Mezunlar için mezuniyet yılı zorunludur.');
+          }
+          if (password.length < 8) {
+            return validationError('Şifreniz en az 8 karakter olmalıdır.');
+          }
+          if (password !== confirm) {
+            return validationError('Şifreler birbiriyle eşleşmiyor.');
+          }
+          if (!docType) {
+            return validationError('Lütfen belge türünü seçin.');
+          }
+          if (!file) {
+            return validationError('Lütfen e-Devlet belgenizi yükleyin.');
+          }
+          if (file.size > 10 * 1024 * 1024) {
+            return validationError('Belge boyutu 10 MB sınırını aşamaz.');
+          }
+          var allowed = ['application/pdf', 'image/jpeg', 'image/png'];
+          if (allowed.indexOf(file.type) === -1) {
+            return validationError(
+              'Belge yalnızca PDF, JPG veya PNG olabilir.'
+            );
+          }
+          if (!form.kvkk_consent.checked) {
+            return validationError(
+              'KVKK aydınlatma metnini onaylamanız gerekir.'
+            );
+          }
+
+          var data = new FormData();
+          data.append('full_name', fullName);
+          data.append('email', email);
+          data.append('phone', phone);
+          data.append('birth_date', birth);
+          data.append('legal_status', legal);
+          data.append('school', school);
+          data.append('city', form.city.value.trim());
+          data.append('graduation_year', form.graduation_year.value.trim());
+          data.append('password', password);
+          data.append('password_confirm', confirm);
+          data.append('doc_type', docType);
+          data.append('kvkk_consent', 'true');
+          data.append('document', file);
+
+          ghdSetBusy(submit, true, 'Başvuru gönderiliyor…');
+          try {
+            await ghdApi('/api/ghdpdf/apply', { method: 'POST', body: data });
+            window.location.href = '/durum?welcome=1';
+          } catch (error) {
+            ghdShowAlert(alertBox, error.message, 'error');
+            ghdSetBusy(submit, false);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

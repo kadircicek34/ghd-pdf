@@ -1,0 +1,46 @@
+# GH PDF — üretim imajı
+#
+# Bu imaj, önceden `scripts/build-ghd.sh` ile üretilen `dist/` çıktısını ve
+# `ghd-public/` portalını PocketBase ile birlikte paketler.
+#
+#   ./scripts/build-ghd.sh
+#   docker compose -f deploy/docker-compose.yml up -d --build
+#
+FROM alpine:3.19 AS pb-downloader
+
+ARG PB_VERSION=0.36.8
+RUN apk add --no-cache curl unzip \
+    && curl -fsSL --retry 5 --retry-all-errors --retry-delay 3 \
+       "https://github.com/pocketbase/pocketbase/releases/download/v${PB_VERSION}/pocketbase_${PB_VERSION}_linux_amd64.zip" \
+       -o /tmp/pocketbase.zip \
+    && unzip /tmp/pocketbase.zip -d /tmp/pb \
+    && chmod +x /tmp/pb/pocketbase
+
+FROM alpine:3.19
+
+RUN apk add --no-cache ca-certificates wget \
+    && adduser -D -u 1001 pbuser
+
+WORKDIR /app
+
+COPY --from=pb-downloader /tmp/pb/pocketbase ./pocketbase
+COPY pb_migrations/ ./pb_migrations/
+COPY pb_hooks/ ./pb_hooks/
+COPY ghd-public/ ./pb_public/
+COPY dist/ ./pb_public/uygulama/
+
+RUN mkdir -p /app/pb_data && chown -R pbuser:pbuser /app
+
+USER pbuser
+
+EXPOSE 8090
+
+HEALTHCHECK --interval=15s --timeout=4s --start-period=15s --retries=5 \
+  CMD wget -qO- http://127.0.0.1:8090/api/health || exit 1
+
+CMD ["./pocketbase", "serve", \
+     "--http=0.0.0.0:8090", \
+     "--dir=/app/pb_data", \
+     "--migrationsDir=/app/pb_migrations", \
+     "--hooksDir=/app/pb_hooks", \
+     "--publicDir=/app/pb_public"]

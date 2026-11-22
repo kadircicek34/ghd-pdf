@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Üye Girişi | GH PDF</title>
+    <meta
+      name="description"
+      content="GH PDF üye girişi. Global Hukukçular Derneği üyelerine özel PDF platformu."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0f1e3d" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="/assets/ghd.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/" aria-label="GH PDF ana sayfa">
+          <img
+            class="brand__mark"
+            src="/assets/logo.png"
+            alt="Global Hukukçular Derneği amblemi"
+            width="48"
+            height="48"
+          />
+          <span class="brand__text">
+            <span class="brand__name">GH PDF</span>
+            <span class="brand__sub">Global Hukukçular Derneği</span>
+          </span>
+        </a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-menu-toggle
+          aria-label="Menüyü aç"
+          aria-expanded="false"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+          </svg>
+        </button>
+        <nav class="nav" data-nav aria-label="Ana menü">
+          <a href="/">Ana sayfa</a>
+          <a href="/basvuru">Üyelik başvurusu</a>
+          <a href="/durum">Başvuru durumu</a>
+          <a class="nav__cta" href="/basvuru">Başvuru yap</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="auth-page">
+      <div class="container auth-shell">
+        <div class="auth-aside">
+          <span class="eyebrow" style="color: var(--gold-3)">Üye erişimi</span>
+          <h1>Belgelerinize güvenli erişim</h1>
+          <p>
+            GH PDF araçları yalnızca Global Hukukçular Derneği üyelerine
+            açıktır. Üyelik başvurunuz onaylandıysa e-posta ve şifrenizle giriş
+            yapabilirsiniz.
+          </p>
+          <ul class="auth-aside__list">
+            <li>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M20 6L9 17l-5-5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Onaylı üyeler için 100+ PDF aracı
+            </li>
+            <li>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M20 6L9 17l-5-5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Dosyalar cihazınızdan çıkmaz
+            </li>
+            <li>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M20 6L9 17l-5-5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Dernek yönetimi tarafından korunan üyelik
+            </li>
+          </ul>
+        </div>
+
+        <section class="card" aria-labelledby="login-title">
+          <div class="card__head">
+            <h2 id="login-title">Üye girişi</h2>
+            <p>Hesabınıza erişmek için bilgilerinizi girin.</p>
+          </div>
+          <div id="login-alert" class="alert" role="alert"></div>
+          <form id="login-form" novalidate>
+            <div class="form-grid">
+              <div class="field field--full">
+                <label for="email"
+                  >E-posta adresi <span class="req">*</span></label
+                >
+                <input
+                  class="input"
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  required
+                  placeholder="ornek@eposta.com"
+                />
+              </div>
+              <div class="field field--full">
+                <label for="password">Şifre <span class="req">*</span></label>
+                <input
+                  class="input"
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                  placeholder="••••••••"
+                  minlength="8"
+                />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button
+                class="btn btn--navy btn--block"
+                type="submit"
+                id="login-submit"
+              >
+                Giriş yap
+              </button>
+            </div>
+            <p class="form-note">
+              Hesabınız yok mu?
+              <a href="/basvuru" style="font-weight: 600; color: var(--gold-3)"
+                >Üyelik başvurusu yapın</a
+              >. Başvuru durumunuzu
+              <a href="/durum" style="font-weight: 600; color: var(--gold-3)"
+                >durum sayfasından</a
+              >
+              takip edebilirsiniz.
+            </p>
+          </form>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__bottom" style="border-top: 0">
+        <span>© 2026 Global Hukukçular Derneği</span>
+        <span
+          ><a href="/gizlilik">Gizlilik ve KVKK</a> ·
+          <a href="/kosullar">Kullanım koşulları</a></span
+        >
+      </div>
+    </footer>
+
+    <script src="/assets/ghd.js"></script>
+    <script>
+      (function () {
+        var form = document.getElementById('login-form');
+        var submit = document.getElementById('login-submit');
+        var alertBox = document.getElementById('login-alert');
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('next')) {
+          ghdShowAlert(
+            alertBox,
+            'Devam etmek için üye girişi yapmanız gerekiyor.',
+            'info'
+          );
+        }
+        form.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          ghdHideAlert(alertBox);
+          var email = form.email.value.trim();
+          var password = form.password.value;
+          if (!email || !password) {
+            ghdShowAlert(
+              alertBox,
+              'E-posta ve şifre alanları zorunludur.',
+              'error'
+            );
+            return;
+          }
+          ghdSetBusy(submit, true, 'Giriş yapılıyor…');
+          try {
+            var data = await ghdApi('/api/ghdpdf/login', {
+              method: 'POST',
+              body: { email: email, password: password },
+            });
+            var user = data.user || {};
+            if (user.role === 'admin') {
+              window.location.href = '/admin';
+            } else if (user.membership_status === 'approved') {
+              window.location.href = '/uygulama/';
+            } else {
+              window.location.href = '/durum';
+            }
+          } catch (error) {
+            ghdShowAlert(alertBox, error.message, 'error');
+            ghdSetBusy(submit, false);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

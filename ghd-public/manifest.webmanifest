@@ -1,0 +1,18 @@
+{
+  "name": "GH PDF — Global Hukukçular Derneği",
+  "short_name": "GH PDF",
+  "description": "Global Hukukçular Derneği üyelerine özel PDF platformu.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f8f3e8",
+  "theme_color": "#0f1e3d",
+  "icons": [
+    {
+      "src": "/assets/favicon-64.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
