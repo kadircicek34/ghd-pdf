@@ -1,0 +1,32 @@
+{
+  "name": "GH PDF — Global Hukukçular Derneği",
+  "short_name": "GH PDF",
+  "description": "Global Hukukçular Derneği üyelerine özel, tarayıcıda çalışan PDF platformu.",
+  "start_url": "/uygulama/",
+  "scope": "/uygulama/",
+  "display": "standalone",
+  "background_color": "#0f1e3d",
+  "theme_color": "#0f1e3d",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/uygulama/images/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/uygulama/images/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/uygulama/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "utilities", "pdf", "tools"]
+}

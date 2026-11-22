@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Başvuru Durumu | GH PDF</title>
+    <meta
+      name="description"
+      content="GH PDF üyelik başvuru durumunuzu görüntüleyin."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#0f1e3d" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="stylesheet" href="/assets/ghd.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/" aria-label="GH PDF ana sayfa">
+          <img
+            class="brand__mark"
+            src="/assets/logo.png"
+            alt="Global Hukukçular Derneği amblemi"
+            width="48"
+            height="48"
+          />
+          <span class="brand__text">
+            <span class="brand__name">GH PDF</span>
+            <span class="brand__sub">Global Hukukçular Derneği</span>
+          </span>
+        </a>
+        <button
+          class="menu-toggle"
+          type="button"
+          data-menu-toggle
+          aria-label="Menüyü aç"
+          aria-expanded="false"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" />
+          </svg>
+        </button>
+        <nav class="nav" data-nav aria-label="Ana menü">
+          <a href="/">Ana sayfa</a>
+          <a href="/giris">Üye girişi</a>
+          <a href="/basvuru">Üyelik başvurusu</a>
+          <a class="nav__cta" href="/cikis">Çıkış</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <div
+        id="status-alert"
+        class="alert"
+        role="alert"
+        style="margin-top: 1.5rem"
+      ></div>
+      <section class="card status-card" id="status-card" aria-live="polite">
+        <div class="status-icon status-icon--pending" id="status-icon">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.7"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path
+              d="M12 7v5l3 2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        <h1 id="status-title">Yükleniyor…</h1>
+        <p id="status-message">Başvuru durumunuz kontrol ediliyor.</p>
+        <dl class="status-meta" id="status-meta" style="display: none"></dl>
+        <div
+          id="status-actions"
+          class="form-actions"
+          style="justify-content: center"
+        ></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__bottom" style="border-top: 0">
+        <span>© 2026 Global Hukukçular Derneği</span>
+        <span
+          ><a href="/gizlilik">Gizlilik ve KVKK</a> ·
+          <a href="/kosullar">Kullanım koşulları</a></span
+        >
+      </div>
+    </footer>
+
+    <script src="/assets/ghd.js"></script>
+    <script>
+      (function () {
+        var icon = document.getElementById('status-icon');
+        var title = document.getElementById('status-title');
+        var message = document.getElementById('status-message');
+        var meta = document.getElementById('status-meta');
+        var actions = document.getElementById('status-actions');
+        var alertBox = document.getElementById('status-alert');
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('welcome')) {
+          ghdShowAlert(
+            alertBox,
+            'Başvurunuz alındı. Yönetim onayından sonra GH PDF araçlarına erişebilirsiniz.',
+            'success'
+          );
+        }
+
+        var ICONS = {
+          pending:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" stroke-linecap="round" stroke-linejoin="round" /></svg>',
+          approved:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round" /></svg>',
+          rejected:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" /></svg>',
+        };
+
+        function addAction(label, href, variant) {
+          var link = document.createElement('a');
+          link.className = 'btn ' + (variant || 'btn--navy');
+          link.href = href;
+          link.textContent = label;
+          actions.appendChild(link);
+        }
+
+        function addLogout() {
+          var button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'btn btn--outline';
+          button.textContent = 'Çıkış yap';
+          button.addEventListener('click', async function () {
+            await ghdApi('/api/ghdpdf/logout', { method: 'POST' }).catch(
+              function () {}
+            );
+            window.location.href = '/';
+          });
+          actions.appendChild(button);
+        }
+
+        async function load() {
+          try {
+            var data = await ghdApi('/api/ghdpdf/me');
+            var user = data.user;
+            var status = user.membership_status || 'pending';
+            icon.className = 'status-icon status-icon--' + status;
+            icon.innerHTML = ICONS[status] || ICONS.pending;
+
+            if (status === 'approved') {
+              title.textContent = 'Üyeliğiniz onaylandı';
+              message.textContent =
+                'GH PDF araçlarına erişiminiz açık. Belgeleriniz tarayıcınızda güvenle işlenir.';
+              addAction('PDF araçlarını aç', '/uygulama/', 'btn--gold');
+              addAction('Ana sayfa', '/', 'btn--outline');
+            } else if (status === 'rejected') {
+              title.textContent = 'Başvurunuz onaylanmadı';
+              message.textContent =
+                user.membership_note ||
+                'Başvurunuz dernek yönetimi tarafından değerlendirildi ve onaylanmadı. Ayrıntı için dernekle iletişime geçebilirsiniz.';
+              addAction(
+                'Dernekle iletişim',
+                'https://globalhukukcular.com/iletisim',
+                'btn--outline'
+              );
+            } else {
+              title.textContent = 'Başvurunuz onay bekliyor';
+              message.textContent =
+                'Belgeniz ve başvuru bilgileriniz dernek yönetimi tarafından inceleniyor. Onaylandığında bu sayfadan PDF araçlarına erişebilirsiniz.';
+              addAction('Durumu yenile', '#', 'btn--navy');
+              actions.lastChild.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.reload();
+              });
+            }
+            addLogout();
+
+            meta.style.display = 'grid';
+            meta.innerHTML =
+              '<div><dt>Ad soyad</dt><dd>' +
+              ghdEscape(user.name || '—') +
+              '</dd></div>' +
+              '<div><dt>E-posta</dt><dd>' +
+              ghdEscape(user.email || '—') +
+              '</dd></div>' +
+              '<div><dt>Hukuk durumu</dt><dd>' +
+              ghdEscape(GHD_LEGAL_LABELS[user.legal_status] || '—') +
+              '</dd></div>' +
+              '<div><dt>Başvuru durumu</dt><dd><span class="badge badge--' +
+              status +
+              '">' +
+              ghdEscape(GHD_STATUS_LABELS[status] || status) +
+              '</span></dd></div>' +
+              '<div><dt>Başvuru tarihi</dt><dd>' +
+              ghdEscape(ghdFormatDate(user.created)) +
+              '</dd></div>' +
+              (user.approved_at
+                ? '<div><dt>Onay tarihi</dt><dd>' +
+                  ghdEscape(ghdFormatDate(user.approved_at)) +
+                  '</dd></div>'
+                : '');
+          } catch (error) {
+            if (error.status === 401) {
+              window.location.href = '/giris?next=/durum';
+              return;
+            }
+            title.textContent = 'Durum alınamadı';
+            message.textContent = error.message;
+            icon.className = 'status-icon status-icon--rejected';
+            icon.innerHTML = ICONS.rejected;
+            actions.innerHTML = '';
+            addAction('Giriş sayfasına dön', '/giris', 'btn--navy');
+          }
+        }
+        load();
+      })();
+    </script>
+  </body>
+</html>
